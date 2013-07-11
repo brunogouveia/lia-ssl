@@ -53,12 +53,12 @@ void Communication::drible(int index, bool drible) {
 }
 
 void Communication::setWheelsVelocity(int index, float frontLeft, float backLeft, float backRight, float frontRight) {
-	printf("Communication::setWheelsVelocity - started\n");
+	//printf("Communication::setWheelsVelocity - started\n");
 	getInstance().packets[index].wheels[0] = frontLeft;
 	getInstance().packets[index].wheels[1] = backLeft;
 	getInstance().packets[index].wheels[2] = backRight;
 	getInstance().packets[index].wheels[3] = frontRight;
-	printf("Communication::setWheelsVelocity - finished\n");
+	//printf("Communication::setWheelsVelocity - finished\n");
 }
 
 /*void Communication::start(int index) {
@@ -79,7 +79,7 @@ void Communication::onPreExecute() {
 }
 
 void Communication::doInBackground() {
-	printf("Communication::doInBackGround - started\n");
+	//printf("Communication::doInBackGround - started\n");
 
 	grSim_Packet packet;
 
@@ -105,7 +105,7 @@ void Communication::doInBackground() {
 	std::string s;
 	packet.SerializeToString(&s);
 	udpsocket.send((void*) s.c_str(), s.length(), _addr);
-	printf("Communication::doInBackGround - finished\n");
+	//printf("Communication::doInBackGround - finished\n");
 }
 
 void Communication::onPosExecute() {

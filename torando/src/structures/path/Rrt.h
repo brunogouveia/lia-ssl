@@ -1,12 +1,12 @@
 /*
- * Rnn.h
+ * Rrt.h
  *
  *  Created on: Jul 8, 2013
  *      Author: bruno
  */
 
-#ifndef RNN_H_
-#define RNN_H_
+#ifndef RRT_H_
+#define RRT_H_
 
 #include <KdTree.h>
 #include <Array.h>
@@ -32,8 +32,8 @@ class Rrt: public Path {
 			static TargetFixed next(from.x(), from.y());
 
 			/*if (from.distanceTo(next) > 30) {
-				return next;
-			}*/
+			 return next;
+			 }*/
 
 			while (points.nearestDist(to) > 200) {
 				points.grow(from, to);
@@ -61,6 +61,29 @@ class Rrt: public Path {
 		void print() {
 			FILE * f = fopen("rrt.txt", "w+");
 			print(f, root);
+
+			int numRobots = Vision::robots.size();
+			for (int i = 0; i < numRobots; i++) {
+				fprintf(f, "%f, %f, %f, %f\n", Vision::robots[i].x(), Vision::robots[i].y(), Vision::robots[i].x() + 10, Vision::robots[i].y() + 10);
+				fprintf(f, "%f, %f, %f, %f\n", Vision::robots[i].x(), Vision::robots[i].y(), Vision::robots[i].x() + 10, Vision::robots[i].y() - 10);
+				fprintf(f, "%f, %f, %f, %f\n", Vision::robots[i].x(), Vision::robots[i].y(), Vision::robots[i].x() - 10, Vision::robots[i].y() + 10);
+				fprintf(f, "%f, %f, %f, %f\n", Vision::robots[i].x(), Vision::robots[i].y(), Vision::robots[i].x() - 10, Vision::robots[i].y() - 10);
+			}
+
+			numRobots = Vision::opponents.size();
+			for (int i = 0; i < numRobots; i++) {
+				fprintf(f, "%f, %f, %f, %f\n", Vision::opponents[i].x(), Vision::opponents[i].y(), Vision::opponents[i].x() + 10, Vision::opponents[i].y() + 10);
+				fprintf(f, "%f, %f, %f, %f\n", Vision::opponents[i].x(), Vision::opponents[i].y(), Vision::opponents[i].x() + 10, Vision::opponents[i].y() - 10);
+				fprintf(f, "%f, %f, %f, %f\n", Vision::opponents[i].x(), Vision::opponents[i].y(), Vision::opponents[i].x() - 10, Vision::opponents[i].y() + 10);
+				fprintf(f, "%f, %f, %f, %f\n", Vision::opponents[i].x(), Vision::opponents[i].y(), Vision::opponents[i].x() - 10, Vision::opponents[i].y() - 10);
+			}
+
+			fprintf(f, "%f, %f, %f, %f\n", Vision::ball.x(), Vision::ball.y(), Vision::ball.x() + 10, Vision::ball.y() + 10);
+			fprintf(f, "%f, %f, %f, %f\n", Vision::ball.x(), Vision::ball.y(), Vision::ball.x() + 10, Vision::ball.y() - 10);
+			fprintf(f, "%f, %f, %f, %f\n", Vision::ball.x(), Vision::ball.y(), Vision::ball.x() - 10, Vision::ball.y() + 10);
+			fprintf(f, "%f, %f, %f, %f\n", Vision::ball.x(), Vision::ball.y(), Vision::ball.x() - 10, Vision::ball.y() - 10);
+
+			fclose(f);
 		}
 
 		void print(FILE * f, RrtNode * root) {
@@ -84,4 +107,4 @@ class Rrt: public Path {
 
 };
 
-#endif /* RNN_H_ */
+#endif /* Rrt_H_ */

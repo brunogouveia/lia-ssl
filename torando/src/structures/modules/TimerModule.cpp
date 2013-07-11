@@ -43,7 +43,7 @@ void TimerModule::setInterval(int milSeconds) {
 }
 
 void TimerModule::exec() {
-	printf("TimerModule::exec\n");
+	//printf("TimerModule::exec\n");
 	doInBackground();
 	QThread::yieldCurrentThread();
 }

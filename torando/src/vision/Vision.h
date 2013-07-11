@@ -86,6 +86,13 @@ class Vision: public TimerModule {
 
 		static bool isFree(Target self, Target position, double tolerance = ROBOT_RADIUS + 50.0, bool avoidBall = false);
 
+		/**
+		 *   Este médoto retorna a distancia do objeto mais proximo do ponto passado.
+		 *   Note, que se o ponto estiver muito proximo de um robo, ou seja, estiver a uma distantica
+		 * menor que o raio de um robo, então ele vai desconsiderar esse robo.
+		 */
+		static float closestDistance(Target position, bool considerBall = true);
+
 	protected:
 
 		/*
@@ -125,7 +132,6 @@ class Vision: public TimerModule {
 		virtual ~Vision();
 		Vision(Vision &);
 		Vision & operator=(const Vision &);
-
 
 };
 

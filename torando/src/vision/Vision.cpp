@@ -170,3 +170,28 @@ bool Vision::isFree(Target self, Target position, double tolerance, bool avoidBa
 	return free;
 
 }
+
+float Vision::closestDistance(Target position, bool considerBall) {
+	float distance = 10000.0f;
+
+	if (considerBall) {
+		distance = ball.distanceTo(position);
+	}
+
+	int numRobots = Vision::robots.size();
+	for (int i = 0; i < numRobots; i++) {
+		float dist = Vision::robots[i].distanceTo(position);
+
+		if (dist > 0.8 * ROBOT_RADIUS && dist < distance)
+			distance = dist;
+	}
+
+	numRobots = Vision::opponents.size();
+	for (int i = 0; i < numRobots; i++) {
+		float dist = Vision::opponents[i].distanceTo(position);
+
+		if (dist > 0.8 * ROBOT_RADIUS && dist < distance)
+			distance = dist;
+	}
+	return distance;
+}

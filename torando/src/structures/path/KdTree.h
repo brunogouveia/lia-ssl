@@ -59,7 +59,6 @@ class KdTree {
 
 			float deltaX = nearest.x() - target.x();
 			float deltaY = nearest.y() - target.y();
-			cout << "Nearest: " << sqrt(deltaX * deltaX + deltaY * deltaY) << endl;
 			return sqrt(deltaX * deltaX + deltaY * deltaY);
 		}
 
@@ -108,7 +107,7 @@ class KdTree {
 			}
 			//Existe uma possibilidade de o ponto aleatório ser o ponto de destino
 			//Probabilidade de 5%
-			if (ran < 0.05) {
+			if (ran < 0.01) {
 				x = goal.x();
 				y = goal.y();
 			}
@@ -128,8 +127,15 @@ class KdTree {
 			//normalizar os deltas vetor(delaX,deltaY)
 			float norm = sqrt(deltaX * deltaX + deltaY * deltaY);
 			if (norm != 0) {
-				deltaX = (deltaX / norm) * 200;
-				deltaY = (deltaY / norm) * 200;
+				float nearestObject = Vision::closestDistance(newTarget);
+
+				if (nearestObject > 100.0f)
+					nearestObject = 100.0f;
+
+				if (randTarget.distanceTo(newTarget) > nearestObject) {
+					deltaX = (deltaX / norm) * nearestObject;
+					deltaY = (deltaY / norm) * nearestObject;
+				}
 			}
 
 			TargetFixed delta(newTarget.x() + deltaX, newTarget.y() + deltaY);
