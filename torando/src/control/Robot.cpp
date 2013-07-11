@@ -28,13 +28,14 @@ void Robot::follow(Target & target) {
 
 void Robot::doInBackground() {
 
-	float followingPower = -100.0;
-	float lookingPower = 30.0;
+	float followingPower = -30.0;
+	float lookingPower = 10.0;
 
 	float wheelsPower[4];
 
 	if (!path.inDestination()) {
 		Target nextPoint = path.getNextPoint();
+		//TargetFixed nextPoint(path.to.x(),path.to.y());
 
 		for (int i = 0; i < 4; i++) {
 			wheelsPower[i] = 0.0;
@@ -43,8 +44,9 @@ void Robot::doInBackground() {
 		if (following) {
 			float targetTheta = atan2(nextPoint.y() - info.y(), nextPoint.x() - info.x()) - info.orientation();
 
+
 			for (int i = 0; i < 4; i++)
-				wheelsPower[i] += sin(wheelsAnglesRad[0] - targetTheta) * followingPower;
+				wheelsPower[i] += sin(wheelsAnglesRad[i] - targetTheta) * followingPower;
 
 		}
 
@@ -56,7 +58,6 @@ void Robot::doInBackground() {
 		}
 
 		Communication::setWheelsVelocity(_id, wheelsPower[0], wheelsPower[1], wheelsPower[2], wheelsPower[3]);
-
 	} else {
 		Communication::setWheelsVelocity(_id, 0.0, 0.0, 0.0, 0.0);
 	}

@@ -13,7 +13,7 @@
 
 #include <Vision.h>
 #include <TargetInclude.h>
-#include <AStarPath.h>
+#include <Rrt.h>
 
 #include <ThreadModule.h>
 
@@ -34,7 +34,7 @@ class Robot: public ThreadModule {
 		 */
 
 		Robot(RobotInfo & info) :
-				info(info), path(info), lookat(info), looking(false), following(false) {
+				info(info), path(info, info), lookat(info), looking(false), following(false) {
 
 			/*TODO : encontrar o id correto*/
 			//this->_id = findRobotId();
@@ -78,7 +78,7 @@ class Robot: public ThreadModule {
 		virtual void doInBackground();
 
 		RobotInfo & info;
-		AStarPath path;
+		Rrt path;
 		Target lookat;
 
 		int _id;

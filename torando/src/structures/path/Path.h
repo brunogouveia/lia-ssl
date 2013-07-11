@@ -38,7 +38,7 @@ class Path {
 			return true;
 		}
 
-	protected:
+	public:
 
 		Target & from;
 		Target to;

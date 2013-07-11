@@ -95,6 +95,8 @@ class Control: public ThreadModule {
 		virtual ~Control();
 		Control(const Control &);
 		Control & operator=(const Control&);
+
+		Robot testRobot;
 };
 
 #endif /* CONTROL_H_ */
