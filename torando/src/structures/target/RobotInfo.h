@@ -42,7 +42,12 @@ class RobotInfo: public Target {
 		bool onField() const {
 			return _onField;
 		}
+
+		int id() const {
+			return _id;
+		}
 	private:
+		int _id;
 		float _orientation;
 		float _confidence;
 		float _pixelx;

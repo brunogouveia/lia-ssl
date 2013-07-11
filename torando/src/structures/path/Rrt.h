@@ -17,7 +17,7 @@
 
 class Rrt: public Path {
 	public:
-		Rrt(Target & from, Target & to) :
+		Rrt(RobotInfo & from, Target & to) :
 				Path(from) {
 			changeTarget(to);
 
@@ -35,24 +35,29 @@ class Rrt: public Path {
 			 return next;
 			 }*/
 
+			static int i = 1;
 			while (points.nearestDist(to) > 200) {
 				points.grow(from, to);
-				cout << "grow" << endl;
+				cout << "grow" << i++ << endl;
 				print();
 			}
 			RrtNode * parent = points.getNearestNode(to);
 			RrtNode * goal = parent->parent;
 
-			while (parent != 0 && parent->target.distanceTo(from) > 100) {
+			while (parent != 0 && parent->target.distanceTo(from) > 200) {
 				goal = parent;
 				parent = parent->parent;
+				if (parent != 0)
+					if (closestDistance(goal->target, true) < 1100) {
+						next = goal->target;
+					}
 			}
 			if (goal != 0) {
 				root = goal;
-				next = goal->target;
+				//next = goal->target;
 			} else {
 				root = parent;
-				next = parent->target;
+				//next = parent->target;
 			}
 			root->parent = 0;
 			return next;

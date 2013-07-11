@@ -12,7 +12,7 @@
 
 class AStarPath: public Path {
 	public:
-		AStarPath(Target & from):Path(from) {
+		AStarPath(RobotInfo & from):Path(from) {
 		}
 		virtual ~AStarPath() {
 		}

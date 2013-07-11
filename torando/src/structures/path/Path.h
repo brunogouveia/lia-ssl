@@ -14,7 +14,7 @@
 
 class Path {
 	public:
-		Path(Target & from) :
+		Path(RobotInfo & from) :
 				from(from), to(from) {
 		}
 		virtual ~Path() {
@@ -38,9 +38,36 @@ class Path {
 			return true;
 		}
 
+		float closestDistance(Target position, bool considerBall) {
+			float distance = 10000.0f;
+
+			if (considerBall) {
+				distance = Vision::ball.distanceTo(position);
+			}
+
+			int numRobots = Vision::robots.size();
+			for (int i = 0; i < numRobots; i++) {
+				if (Vision::robots[i].id() != from.id()) {
+					float dist = Vision::robots[i].distanceTo(position);
+
+					if (dist > 0.8 * ROBOT_RADIUS && dist < distance)
+						distance = dist;
+				}
+			}
+
+			numRobots = Vision::opponents.size();
+			for (int i = 0; i < numRobots; i++) {
+				float dist = Vision::opponents[i].distanceTo(position);
+
+				if (dist > 0.8 * ROBOT_RADIUS && dist < distance)
+					distance = dist;
+			}
+			return distance;
+		}
+
 	public:
 
-		Target & from;
+		RobotInfo & from;
 		Target to;
 };
 

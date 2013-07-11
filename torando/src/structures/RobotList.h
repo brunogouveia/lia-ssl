@@ -36,6 +36,7 @@ class RobotList {
 			prevRobots[2][robot.robot_id()]._orientation = robot.orientation();
 			robotsMisses[robot.robot_id()] = -1;
 
+			robots[robot.robot_id()]._id = (int) robot.robot_id();
 			robots[robot.robot_id()]._x = (prevRobots[0][robot.robot_id()]._x + prevRobots[1][robot.robot_id()]._x + prevRobots[2][robot.robot_id()]._x) / 3.0;
 			robots[robot.robot_id()]._y = (prevRobots[0][robot.robot_id()]._y + prevRobots[1][robot.robot_id()]._y + prevRobots[2][robot.robot_id()]._y) / 3.0;
 			robots[robot.robot_id()]._orientation = (prevRobots[0][robot.robot_id()]._orientation + prevRobots[1][robot.robot_id()]._orientation + prevRobots[2][robot.robot_id()]._orientation) / 3.0;

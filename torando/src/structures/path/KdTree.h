@@ -98,7 +98,7 @@ class KdTree {
 			float maxY = 2000.0;
 			float minY = -2000.0;
 
-			float y = minY + (rand() % (int) (maxX - minY + 1));
+			float y = minY + (rand() % (int) (maxY - minY + 1));
 
 			float ran = (float) rand() / (float) RAND_MAX;
 
@@ -107,45 +107,70 @@ class KdTree {
 			}
 			//Existe uma possibilidade de o ponto aleatório ser o ponto de destino
 			//Probabilidade de 5%
-			if (ran < 0.01) {
+			if (ran < 0.1) {
 				x = goal.x();
 				y = goal.y();
 			}
 
 			//Cria o Target para o ponto aleatório gerado.
-			TargetFixed randTarget(x, y);
+			TargetFixed randomTarget(x, y);
 
 			//Procura o nó da árvore que está mais proximo do ponto gerado
-			RrtNode * nearestNode = getNearestNode(randTarget);
+			RrtNode * nearestNode = getNearestNode(randomTarget);
 
 			//Cria um vetor (pontogerado - pontomaisperto)
-			Target newTarget = nearestNode->target;
+			Target nearestTarget = nearestNode->target;
 
-			float deltaX = randTarget.x() - newTarget.x();
-			float deltaY = randTarget.y() - newTarget.y();
+			float deltaX = randomTarget.x() - nearestTarget.x();
+			float deltaY = randomTarget.y() - nearestTarget.y();
 
 			//normalizar os deltas vetor(delaX,deltaY)
 			float norm = sqrt(deltaX * deltaX + deltaY * deltaY);
-			if (norm != 0) {
-				float nearestObject = Vision::closestDistance(newTarget);
+			float nearestObject = Vision::closestDistance(nearestTarget);
+			/*if (norm != 0) {
 
-				if (nearestObject > 100.0f)
-					nearestObject = 100.0f;
+			 if (nearestObject > 200.0f)
+			 nearestObject = 200.0f;
 
-				if (randTarget.distanceTo(newTarget) > nearestObject) {
-					deltaX = (deltaX / norm) * nearestObject;
-					deltaY = (deltaY / norm) * nearestObject;
+			 if (randomTarget.distanceTo(nearestTarget) > nearestObject) {
+			 deltaX = (deltaX / norm) * nearestObject;
+			 deltaY = (deltaY / norm) * nearestObject;
+			 }
+			 }*/
+
+			float normalizedDeltaX = (deltaX / norm) * 200.0f;
+			float normalizedDeltaY = (deltaY / norm) * 200.0f;
+
+			bool isFree;
+			nearestObject = (nearestObject > 400.0f) ? 400.0f : nearestObject;
+			while (nearestObject > 200.0f) {
+				TargetFixed delta(nearestTarget.x() + normalizedDeltaX, nearestTarget.y() + normalizedDeltaY);
+
+				isFree = Vision::isFree(from, delta);
+				if (isFree) {
+					RrtNode * newNode = new RrtNode(delta, nearestNode);
+					nearestNode->addChild(newNode);
+
+					insert(delta, newNode);
+					nearestNode = newNode;
+				} else {
+					break;
 				}
+
+				nearestTarget = delta;
+				nearestObject -= 200.0f;
 			}
 
-			TargetFixed delta(newTarget.x() + deltaX, newTarget.y() + deltaY);
+			if (norm < 200.0f) {
+				TargetFixed delta(nearestTarget.x() + deltaX, nearestTarget.y() + deltaY);
 
-			//Se o ponto é válido, ou seja, não está perto de nenhum obstáculo, então adiciona o novo ponto na árvore
-			if (Vision::isFree(from, delta)) {
-				RrtNode * newNode = new RrtNode(delta, nearestNode);
-				nearestNode->addChild(newNode);
+				//Se o ponto é válido, ou seja, não está perto de nenhum obstáculo, então adiciona o novo ponto na árvore
+				if (Vision::isFree(from, delta)) {
+					RrtNode * newNode = new RrtNode(delta, nearestNode);
+					nearestNode->addChild(newNode);
 
-				insert(delta, newNode);
+					insert(delta, newNode);
+				}
 			}
 
 		}
