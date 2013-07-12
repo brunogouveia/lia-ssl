@@ -28,7 +28,7 @@ void Robot::follow(Target & target) {
 
 void Robot::doInBackground() {
 
-	float followingPower = -70.0;
+	float followingPower = -30.0;
 	float lookingPower = 10.0;
 
 	float wheelsPower[4];
