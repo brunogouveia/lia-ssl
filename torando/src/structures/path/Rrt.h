@@ -22,13 +22,25 @@ class Rrt: public Path {
 
 		TargetFixed getNextPoint();
 
+	protected:
 		void grow(Target goal);
+
+		void checkTree();
+		void addTreeOnKdTree(RrtNode * root);
+
+		void clear();
+		void deleteTree(RrtNode *&  root);
+		void deleteTreeLeast(RrtNode * root, RrtNode * least);
 
 		void print();
 
 		void print(FILE * f, RrtNode * root);
 
 	private:
+
+		TargetFixed cache[200];
+		int sizeCache;
+		int indexCache;
 
 		RrtNode * root;
 		KdTree points;

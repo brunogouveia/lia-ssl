@@ -46,6 +46,9 @@ class RobotInfo: public Target {
 		int id() const {
 			return _id;
 		}
+
+		float closestDistance(bool considerBall = true);
+
 	private:
 		int _id;
 		float _orientation;

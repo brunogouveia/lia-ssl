@@ -30,7 +30,7 @@ void Control::doInBackground() {
 	testRobot.lookAt();
 	testRobot.follow(Vision::ball);
 
-	usleep(1000);
+	//usleep(1000);
 
 	//printf("Control::doInBackGround - finished\n");
 
