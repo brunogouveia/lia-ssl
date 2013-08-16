@@ -43,7 +43,7 @@ Rrt::getNextPoint() {
 	checkTree();
 
 	//Grow the tree to goal.
-	while (points.nearestDist(to) > 200) {
+	while (points.nearestDist(to) > 20) {
 		grow(to);
 		//print();
 	}
@@ -105,20 +105,20 @@ void Rrt::grow(Target goal) {
 	}
 
 	//Cria o Target para o ponto aleatório gerado.
-	TargetFixed randomTarget(x, y);
+	TargetFixed randomPoint(x, y);
 
 	//Procura o nó da árvore que está mais proximo do ponto gerado
-	RrtNode * nearestNode = points.getNearestNode(randomTarget);
+	RrtNode * nearestNode = points.getNearestNode(randomPoint);
 
 	//Cria um vetor (pontogerado - pontomaisperto)
-	Target nearestTarget = nearestNode->target;
+	Target nearestPoint = nearestNode->target;
 
-	float deltaX = randomTarget.x() - nearestTarget.x();
-	float deltaY = randomTarget.y() - nearestTarget.y();
+	float deltaX = randomPoint.x() - nearestPoint.x();
+	float deltaY = randomPoint.y() - nearestPoint.y();
 
 	//normalizar os deltas vetor(delaX,deltaY)
 	float norm = sqrt(deltaX * deltaX + deltaY * deltaY);
-	float nearestObject = Vision::closestDistance(nearestTarget);
+	float nearestObjectDistance = Vision::closestDistance(nearestPoint);
 	/*if (norm != 0) {
 
 	 if (nearestObject > 200.0f)
@@ -134,9 +134,9 @@ void Rrt::grow(Target goal) {
 	float normalizedDeltaY = (deltaY / norm) * 80.0f;
 
 	bool isFree;
-	nearestObject = (nearestObject > 400.0f) ? 400.0f : nearestObject;
-	while (nearestObject > 80.0f) {
-		TargetFixed delta(nearestTarget.x() + normalizedDeltaX, nearestTarget.y() + normalizedDeltaY);
+	nearestObjectDistance = (nearestObjectDistance > 400.0f) ? 400.0f : nearestObjectDistance;
+	while (nearestObjectDistance > 80.0f) {
+		TargetFixed delta(nearestPoint.x() + normalizedDeltaX, nearestPoint.y() + normalizedDeltaY);
 
 		isFree = Vision::isFree(from, delta,ROBOT_RADIUS + 50.0,true);
 		if (isFree) {
@@ -149,12 +149,12 @@ void Rrt::grow(Target goal) {
 			break;
 		}
 
-		nearestTarget = delta;
-		nearestObject -= 80.0f;
+		nearestPoint = delta;
+		nearestObjectDistance -= 80.0f;
 	}
 
 	if (norm < 80.0f) {
-		TargetFixed delta(nearestTarget.x() + deltaX, nearestTarget.y() + deltaY);
+		TargetFixed delta(nearestPoint.x() + deltaX, nearestPoint.y() + deltaY);
 
 		//Se o ponto é válido, ou seja, não está perto de nenhum obstáculo, então adiciona o novo ponto na árvore
 		if (Vision::isFree(from, delta,ROBOT_RADIUS + 50.0,true)) {
@@ -165,8 +165,13 @@ void Rrt::grow(Target goal) {
 		}
 	}
 
-	if (points.nearestDist(to) <= 200) {
+	if (points.nearestDist(to) <= 100) {
 		RrtNode * parent = points.getNearestNode(to);
+
+		//Adiciona o to na árvore
+		RrtNode * toNode = new RrtNode(to,parent);
+		parent->addChild(toNode);
+		points.insert(to,toNode);
 
 		RrtNode * goal = parent->parent;
 

@@ -27,8 +27,9 @@ void Control::doInBackground() {
 	//printf("Control::doInBackGround - started\n");
 
 
+	TargetFixed target(Vision::ball.x()-150,Vision::ball.y());
 	testRobot.lookAt();
-	testRobot.follow(Vision::ball);
+	testRobot.follow(target);
 
 	//usleep(1000);
 

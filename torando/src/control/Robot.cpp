@@ -36,9 +36,9 @@ void Robot::doInBackground() {
 	followingPower = getPower(path.distanceToTarget());
 	Target nextPoint;
 	//if (path.distanceToTarget() > 1000.0f)
-		nextPoint = path.getNextPoint();
+	nextPoint = path.getNextPoint();
 	//else
-		//nextPoint = path.to;
+	//nextPoint = path.to;
 
 	for (int i = 0; i < 4; i++) {
 		wheelsPower[i] = 0.0;
@@ -63,5 +63,13 @@ void Robot::doInBackground() {
 }
 
 float Robot::getPower(int distanceTarget) {
-	return - int(log((distanceTarget + 125) >> 7)) << 5;
+	printf("Distance %d %f\n", distanceTarget, -70 * (distanceTarget / 1024.0f));
+	// return - (int(log((distanceTarget + 150) >> 7)) << 5);
+	if (distanceTarget >= 1024.0f) {
+		followingPower = (followingPower > -70) ? followingPower - 0.5f : followingPower;
+	} else {
+		followingPower = -70 * float((distanceTarget-45) / 1024.0f);
+		followingPower = int(followingPower);
+	}
+	return followingPower;
 }
