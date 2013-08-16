@@ -28,37 +28,40 @@ void Robot::follow(Target & target) {
 
 void Robot::doInBackground() {
 
-	float followingPower = -50.0;
-	float lookingPower = 10.0;
+	lookingPower = 10.0;
 
+	printf("Following: %f\n", followingPower);
 	float wheelsPower[4];
 
-	if (!path.inDestination()) {
-		Target nextPoint = path.getNextPoint();
-		//TargetFixed nextPoint(path.to.x(),path.to.y());
+	followingPower = getPower(path.distanceToTarget());
+	Target nextPoint;
+	//if (path.distanceToTarget() > 1000.0f)
+		nextPoint = path.getNextPoint();
+	//else
+		//nextPoint = path.to;
 
-		for (int i = 0; i < 4; i++) {
-			wheelsPower[i] = 0.0;
-		}
-
-		if (following) {
-			float targetTheta = atan2(nextPoint.y() - info.y(), nextPoint.x() - info.x()) - info.orientation();
-
-
-			for (int i = 0; i < 4; i++)
-				wheelsPower[i] += sin(wheelsAnglesRad[i] - targetTheta) * followingPower;
-
-		}
-
-		if (looking) {
-			float lookTheta = atan2(lookat.y() - info.y(), lookat.x() - info.x()) - info.orientation();
-
-			for (int i = 0; i < 4; i++)
-				wheelsPower[i] += lookTheta * lookingPower;
-		}
-
-		Communication::setWheelsVelocity(_id, wheelsPower[0], wheelsPower[1], wheelsPower[2], wheelsPower[3]);
-	} else {
-		Communication::setWheelsVelocity(_id, 0.0, 0.0, 0.0, 0.0);
+	for (int i = 0; i < 4; i++) {
+		wheelsPower[i] = 0.0;
 	}
+
+	if (following) {
+		float targetTheta = atan2(nextPoint.y() - info.y(), nextPoint.x() - info.x()) - info.orientation();
+
+		for (int i = 0; i < 4; i++)
+			wheelsPower[i] += sin(wheelsAnglesRad[i] - targetTheta) * followingPower;
+
+	}
+
+	if (looking) {
+		float lookTheta = atan2(lookat.y() - info.y(), lookat.x() - info.x()) - info.orientation();
+
+		for (int i = 0; i < 4; i++)
+			wheelsPower[i] += lookTheta * lookingPower;
+	}
+
+	Communication::setWheelsVelocity(_id, wheelsPower[0], wheelsPower[1], wheelsPower[2], wheelsPower[3]);
+}
+
+float Robot::getPower(int distanceTarget) {
+	return - int(log((distanceTarget + 125) >> 7)) << 5;
 }

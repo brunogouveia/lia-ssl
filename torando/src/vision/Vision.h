@@ -27,6 +27,7 @@
 #include <Definitions.h>
 #include <RobotList.h>
 
+#include <Matrix.h>
 class Update;
 
 class Vision: public TimerModule {
@@ -125,6 +126,23 @@ class Vision: public TimerModule {
 		virtual void onPosExecute();
 
 	private:
+
+		//Kalman FIlter variables
+		CMatrix StateX;
+		CMatrix Px;
+		CMatrix Ax;
+		CMatrix Bx;
+		CMatrix Cx;
+		CMatrix Ex;
+		CMatrix Ezx;
+
+		CMatrix StateY;
+		CMatrix Py;
+		CMatrix Ay;
+		CMatrix By;
+		CMatrix Cy;
+		CMatrix Ey;
+		CMatrix Ezy;
 
 		/*   Este métodos estão privados para evitar que alguem instancie ou copie
 		 * um objeto do tipo Vision.*/

@@ -34,7 +34,7 @@ class Robot: public ThreadModule {
 		 */
 
 		Robot(RobotInfo & info) :
-				info(info), path(info, info), lookat(info), looking(false), following(false) {
+				info(info), path(info, info), lookat(info), lookingPower(0.0f), followingPower(0.0f), looking(false), following(false) {
 
 			/*TODO : encontrar o id correto*/
 			//this->_id = findRobotId();
@@ -77,11 +77,14 @@ class Robot: public ThreadModule {
 	private:
 		virtual void doInBackground();
 
+		float getPower(int);
+
 		RobotInfo & info;
 		Rrt path;
 		Target lookat;
 
 		int _id;
+		float lookingPower, followingPower;
 
 		bool looking, following;
 

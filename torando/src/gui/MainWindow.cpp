@@ -40,8 +40,10 @@ MainWindow::~MainWindow() {
 void MainWindow::visionButtonMethod() {
 	static bool running = false;
 
-	if (!running)
+	if (!running){
 		Vision::startModule();
+		Vision::changeInterval(10);
+	}
 	else
 		Vision::stopModule();
 	running = !running;

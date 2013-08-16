@@ -7,6 +7,10 @@
 
 #include "Vision.h"
 
+#include "Time.h"
+#include <math.h>
+//#include <opencv2/video/tracking.hpp>
+
 RobotList Vision::robots;
 RobotList Vision::opponents;
 
@@ -15,7 +19,8 @@ BallInfo Vision::ball;
 TargetFixed Vision::opponentGoal(3090.0, 0.0);
 TargetFixed Vision::goal(-3090.0, 0.0);
 
-Vision::Vision() {
+Vision::Vision() :
+		StateX("Sx", 2, 1), Px("Px", 2, 2), Ax("Ax", 2, 2), Bx("Bx", 2, 1), Cx("Cx", 1, 2), Ex("", 2, 2), Ezx("", 1, 1), StateY("Sy", 2, 1), Py("Py", 2, 2), Ay("Ay", 2, 2), By("By", 2, 1), Cy("Cy", 1, 2), Ey("", 2, 2), Ezy("", 1, 1) {
 
 }
 
@@ -34,12 +39,67 @@ void Vision::changeInterval(int milSeconds) {
 	getInstance().setInterval(milSeconds);
 }
 
+FILE * realX;
+FILE * kalmanX;
+
+#include <Kalm.h>
+Kalman ast;
 void Vision::onPreExecute() {
 	client.open(true);
+
+	ast.setKalman(0, 0);
+
+	//Initialize KalmanFIlter parameters
+	Ax.m_pData[0][0] = Ay.m_pData[0][0] = 1.0;
+	Ax.m_pData[0][1] = Ay.m_pData[0][1] = 1.0;
+	Ax.m_pData[1][0] = Ay.m_pData[1][0] = 0.0;
+	Ax.m_pData[1][1] = Ay.m_pData[1][1] = 1.0;
+
+	Bx.m_pData[0][0] = .50; // (t^2)/2
+	Bx.m_pData[1][0] = 1.0;
+
+	Cx.m_pData[0][0] = Cy.m_pData[0][0] = 1.0;
+	Cx.m_pData[0][1] = Cy.m_pData[0][1] = 0.0;
+
+	Px.m_pData[0][0] = Ex.m_pData[0][0] = 0.25;
+	Px.m_pData[0][1] = Ex.m_pData[0][1] = 0.5;
+	Px.m_pData[1][0] = Ex.m_pData[1][0] = 0.5;
+	Px.m_pData[1][1] = Ex.m_pData[1][1] = 0.1;
+
+	Ex.m_pData[0][0] = 0.25;
+	Ex.m_pData[0][1] = 0.5;
+	Ex.m_pData[1][0] = 0.5;
+	Ex.m_pData[1][1] = 0.1;
+
+	Px.m_pData[0][0] = 1000;
+	Px.m_pData[0][1] = 0;
+	Px.m_pData[1][0] = 0;
+	Px.m_pData[1][1] = 1000;
+
+	Ezx.m_pData[0][0] = 100.0;
+
+	ball._velX = ball._velY = 0;
+	ball._accX = ball._accY = 0;
+
+
+	realX = fopen("realX.txt", "w+");
+	kalmanX = fopen("kalmanX.txt", "w+");
+
 }
 
 void Vision::doInBackground() {
 
+	static float iterator = 1;
+	static float lastPredictionX = 0;
+	static float lastPredictionY = 0;
+
+	try {
+		fprintf(realX, "%f, %f, ", robots[0].x(), robots[0].y());
+		fprintf(kalmanX, "%f, %f, ", lastPredictionX, lastPredictionY);
+	} catch (char const * e) {
+		fprintf(realX, "%f, %f, ", 0.0, 0.0);
+		fprintf(kalmanX, "%f, %f, ", lastPredictionX, lastPredictionY);
+	}
 	if (client.receive(packet)) {
 
 		if (packet.has_detection()) {
@@ -142,11 +202,16 @@ void Vision::doInBackground() {
 
 			}
 		}
+
 	}
+
+
 
 }
 
 void Vision::onPosExecute() {
+	fclose(realX);
+	fclose(kalmanX);
 	client.close();
 }
 

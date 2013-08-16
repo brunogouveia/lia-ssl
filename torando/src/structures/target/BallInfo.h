@@ -9,12 +9,13 @@
 #define BALLINFO_H_
 
 #include <Target.h>
+#include <Info.h>
 #include "messages_robocup_ssl_detection.pb.h"
 
-class BallInfo: public Target {
+class BallInfo: public Info {
 	public:
-		BallInfo();
-		virtual ~BallInfo();
+		BallInfo():_velX(0),_velY(0),_accX(0),_accY(0){}
+		virtual ~BallInfo(){}
 
 		float x() {
 			return _x;
@@ -38,6 +39,20 @@ class BallInfo: public Target {
 
 		float pixely() {
 			return _pixely;
+		}
+
+		float velocityX() {
+			return _velX;
+		}
+
+		float velocityY() {
+			return _velY;
+		}
+		float accelerationX() {
+			return _accX;
+		}
+		float accelerationY() {
+			return _accY;
 		}
 
 		bool onField() {
@@ -66,6 +81,11 @@ class BallInfo: public Target {
 		float _pixelx;
 		float _pixely;
 		bool _onField;
+
+		float _velX;
+		float _velY;
+		float _accX;
+		float _accY;
 
 		friend class Vision;
 };

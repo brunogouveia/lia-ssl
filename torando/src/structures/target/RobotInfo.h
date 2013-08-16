@@ -9,9 +9,10 @@
 #define ROBOTINFO_H_
 
 #include <Target.h>
+#include <Info.h>
 #include "messages_robocup_ssl_detection.pb.h"
 
-class RobotInfo: public Target {
+class RobotInfo: public Info {
 	public:
 		RobotInfo();
 		virtual ~RobotInfo();
@@ -47,6 +48,20 @@ class RobotInfo: public Target {
 			return _id;
 		}
 
+		float velocityX() {
+			return _velX;
+		}
+
+		float velocityY() {
+			return _velY;
+		}
+		float accelerationX() {
+			return _accX;
+		}
+		float accelerationY() {
+			return _accY;
+		}
+
 		float closestDistance(bool considerBall = true);
 
 	private:
@@ -56,6 +71,11 @@ class RobotInfo: public Target {
 		float _pixelx;
 		float _pixely;
 		bool _onField;
+
+		float _velX;
+		float _velY;
+		float _accX;
+		float _accY;
 
 		friend class Vision;
 		friend class RobotList;

@@ -41,6 +41,13 @@ class RobotList {
 			robots[robot.robot_id()]._y = (prevRobots[0][robot.robot_id()]._y + prevRobots[1][robot.robot_id()]._y + prevRobots[2][robot.robot_id()]._y) / 3.0;
 			robots[robot.robot_id()]._orientation = (prevRobots[0][robot.robot_id()]._orientation + prevRobots[1][robot.robot_id()]._orientation + prevRobots[2][robot.robot_id()]._orientation) / 3.0;
 			robots[robot.robot_id()]._confidence = robot.confidence();
+
+			float x, y;
+
+			robots[robot.robot_id()].kalman.changeMeasure(robot.x(), robot.y());
+			robots[robot.robot_id()].kalman.step2(robots[robot.robot_id()]._x, robots[robot.robot_id()]._y);
+			robots[robot.robot_id()].kalman.step1(x, y);
+
 		}
 
 		int size() {

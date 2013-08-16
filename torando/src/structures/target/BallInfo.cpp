@@ -7,12 +7,4 @@
 
 #include "BallInfo.h"
 
-BallInfo::BallInfo() {
-	// TODO Auto-generated constructor stub
-
-}
-
-BallInfo::~BallInfo() {
-	// TODO Auto-generated destructor stub
-}
 

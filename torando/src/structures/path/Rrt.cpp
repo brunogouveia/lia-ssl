@@ -138,7 +138,7 @@ void Rrt::grow(Target goal) {
 	while (nearestObject > 80.0f) {
 		TargetFixed delta(nearestTarget.x() + normalizedDeltaX, nearestTarget.y() + normalizedDeltaY);
 
-		isFree = Vision::isFree(from, delta);
+		isFree = Vision::isFree(from, delta,ROBOT_RADIUS + 50.0,true);
 		if (isFree) {
 			RrtNode * newNode = new RrtNode(delta, nearestNode);
 			nearestNode->addChild(newNode);
@@ -157,7 +157,7 @@ void Rrt::grow(Target goal) {
 		TargetFixed delta(nearestTarget.x() + deltaX, nearestTarget.y() + deltaY);
 
 		//Se o ponto é válido, ou seja, não está perto de nenhum obstáculo, então adiciona o novo ponto na árvore
-		if (Vision::isFree(from, delta)) {
+		if (Vision::isFree(from, delta,ROBOT_RADIUS + 50.0,true)) {
 			RrtNode * newNode = new RrtNode(delta, nearestNode);
 			nearestNode->addChild(newNode);
 
