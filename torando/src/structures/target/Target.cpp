@@ -1,18 +1,32 @@
-/*
- * Target.cpp
- *
- *  Created on: 27/04/2013
- *      Author: yuriclaure
- */
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: Target.cpp
+//  ========
+//  Source file for target.
 
+#ifndef TARGET_H_
 #include "Target.h"
+#endif
 
-Target::Target() {
-	// TODO Auto-generated constructor stub
-
+Target::Target()
+//[]----------------------------------------------------[]
+//|  Constructor                                         |
+//[]----------------------------------------------------[]
+{
 }
 
-Target::~Target() {
-	// TODO Auto-generated destructor stub
+Target::~Target()
+//[]----------------------------------------------------[]
+//|  Destructor                                          |
+//[]----------------------------------------------------[]
+{
 }
 

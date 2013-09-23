@@ -1,12 +1,19 @@
-/*
- * KdTree.h
- *
- *  Created on: Jul 8, 2013
- *      Author: bruno
- */
-
 #ifndef KDTREE_H_
 #define KDTREE_H_
+
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: KdTree.h
+//  ========
+//  Class definition for kd-tree.
 
 #include "kdtree.h"
 #include "TargetFixed.h"
@@ -15,6 +22,10 @@
 #include <stdlib.h>
 #include <iostream>
 
+//////////////////////////////////////////////////////////
+//
+// RrtNode: rrt-node class
+// ==========
 class RrtNode {
 
 	private:
@@ -40,6 +51,11 @@ class RrtNode {
 		Array<RrtNode *> children;
 };
 
+
+//////////////////////////////////////////////////////////
+//
+// KDRree: kd-tree class
+// ==========
 class KdTree {
 	public:
 		KdTree() :

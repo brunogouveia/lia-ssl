@@ -1,3 +1,6 @@
+#ifndef VECTOR_H_
+#define VECTOR_H_
+
 //[]------------------------------------------------------------------------[]
 //|                                                                          |
 //|                        Small Size League software                        |
@@ -8,21 +11,40 @@
 //|																			 |
 //[]------------------------------------------------------------------------[]
 //
-//  OVERVIEW: Referee.cpp
+//  OVERVIEW: Vector.h
 //  ========
-//  Source file for referee.
+//  Class definition for vector 2D.
 
-#ifndef MODULE_H_
-#include "Module.h"
-#endif
+#include <TargetFixed.h>
 
 //////////////////////////////////////////////////////////
 //
-// Module implementation
+// Vector2D: vector 2D class
 // ==========
-Module::Module() {
-}
+class Vector2D: public TargetFixed {
+	public:
+		Vector2D();
+		Vector2D(float x, float y);
+		virtual ~Vector2D();
 
-Module::~Module() {
-}
+		void normalize(float norm);
 
+		float norm();
+
+		Vector2D rotateLeft(float angleRad = 1.57079633);
+
+		Vector2D rotateRight(float angleRad = 1.57079633);
+
+		void set(Vector2D & vector);
+
+		float operator*(Vector2D & vector);
+
+		double findAngle();
+
+		static float angle(Vector2D & vec1, Vector2D & vec2);
+
+	private:
+		static float angleDiff(float angle1, float angle2);
+};
+
+#endif /* VECTOR_H_ */

@@ -1,13 +1,30 @@
-/*
- * AStarPath.cpp
- *
- *  Created on: Jul 9, 2013
- *      Author: yuri
- */
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: AStarPath.cpp
+//  ========
+//  Source file for a star path.
 
+#ifndef ASTARPATH_H_
 #include "AStarPath.h"
+#endif
 
-TargetFixed AStarPath::getNextPoint() {
+//////////////////////////////////////////////////////////
+//
+// AStarPath implementation
+// ==========
+TargetFixed AStarPath::getNextPoint()
+//[]----------------------------------------------------[]
+//|  Get Next Point                                      |
+//[]----------------------------------------------------[]
+{
 	TargetFixed nearestPoints[8];
 
 	generateNearestPoints(nearestPoints, from, 400.0);
@@ -26,7 +43,11 @@ TargetFixed AStarPath::getNextPoint() {
 
 }
 
-void AStarPath::generateNearestPoints(TargetFixed * out, Target position, double distance) {
+void AStarPath::generateNearestPoints(TargetFixed * out, Target position, double distance)
+//[]----------------------------------------------------[]
+//|  Generate Nearest Points                             |
+//[]----------------------------------------------------[]
+{
 
 	if (distance > 500.0)
 		distance = 500.0;

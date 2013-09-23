@@ -1,12 +1,19 @@
-/*
- * ThreadModule.h
- *
- *  Created on: Apr 23, 2013
- *      Author: bruno
- */
-
 #ifndef THREADMODULE_H_
 #define THREADMODULE_H_
+
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: ThreadModule.h
+//  ========
+//  Class definition for thread module.
 
 #include <Module.h>
 
@@ -14,6 +21,10 @@
 #include <QtCore>
 #include <QThread>
 
+//////////////////////////////////////////////////////////
+//
+// ThreadModule: abstract thread module class
+// ==========
 class ThreadModule: public Module {
 	Q_OBJECT
 	protected:

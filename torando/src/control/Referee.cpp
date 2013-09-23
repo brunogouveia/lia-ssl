@@ -1,17 +1,35 @@
-/*
- * Referee.cpp
- *
- *  Created on: Apr 18, 2013
- *      Author: bruno
- */
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: Referee.cpp
+//  ========
+//  Source file for referee.
 
+#ifndef REFEREE_H_
 #include "Referee.h"
+#endif
 
-Referee::Referee() {
-	// TODO Auto-generated constructor stub
-
+//////////////////////////////////////////////////////////
+//
+// Referee implementation
+// ==========
+Referee::Referee()
+//[]----------------------------------------------------[]
+//|  Constructor                                         |
+//[]----------------------------------------------------[]
+{
 }
 
-Referee::~Referee() {
-	// TODO Auto-generated destructor stub
+Referee::~Referee()
+//[]----------------------------------------------------[]
+//|  Destructor                                          |
+//[]----------------------------------------------------[]
+{
 }

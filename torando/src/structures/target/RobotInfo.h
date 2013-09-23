@@ -1,17 +1,28 @@
-/*
- * RobotInfo.h
- *
- *  Created on: Apr 11, 2013
- *      Author: bruno
- */
-
 #ifndef ROBOTINFO_H_
 #define ROBOTINFO_H_
+
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: RobotInfo.h
+//  ========
+//  Class definition for robot info.
 
 #include <Target.h>
 #include <Info.h>
 #include "messages_robocup_ssl_detection.pb.h"
 
+//////////////////////////////////////////////////////////
+//
+// RobotInfo: robot info class
+// ==========
 class RobotInfo: public Info {
 	public:
 		RobotInfo();

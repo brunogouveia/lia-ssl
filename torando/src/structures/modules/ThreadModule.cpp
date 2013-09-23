@@ -1,23 +1,48 @@
-/*
- * ThreadModule.cpp
- *
- *  Created on: Apr 23, 2013
- *      Author: bruno
- */
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: Referee.cpp
+//  ========
+//  Source file for referee.
 
+#ifndef THREADMODULE_H_
 #include "ThreadModule.h"
+#endif
 
+//////////////////////////////////////////////////////////
+//
+// ThreadModule implementation
+// ==========
 ThreadModule::ThreadModule() :
-		firstRun(true), running(false) {
+		firstRun(true), running(false)
+//[]----------------------------------------------------[]
+//|  Constructor                                         |
+//[]----------------------------------------------------[]
+{
 	printf("ThreadModule::ThreadModule()\n");
 }
 
-ThreadModule::~ThreadModule() {
+ThreadModule::~ThreadModule()
+//[]----------------------------------------------------[]
+//|  Destructor                                          |
+//[]----------------------------------------------------[]
+{
 	printf("ThreadModule::~ThreadModule()\n");
 	disconnect(getThread(), SIGNAL(started()), this, SLOT(exec()));
 }
 
-void ThreadModule::start() {
+void ThreadModule::start()
+//[]----------------------------------------------------[]
+//|  Start                                               |
+//[]----------------------------------------------------[]
+{
 	printf("ThreadModule::start()\n");
 	if (firstRun) {
 		moveToThread(getThread());
@@ -29,13 +54,21 @@ void ThreadModule::start() {
 	getThread()->start();
 }
 
-void ThreadModule::stop() {
+void ThreadModule::stop()
+//[]----------------------------------------------------[]
+//|  Stop                                                |
+//[]----------------------------------------------------[]
+{
 	printf("ThreadModule::stop()\n");
 	running = false;
 	getThread()->quit();
 }
 
-void ThreadModule::exec() {
+void ThreadModule::exec()
+//[]----------------------------------------------------[]
+//|  Exec                                                |
+//[]----------------------------------------------------[]
+{
 	printf("ThreadModule::exec()\n");
 	onPreExecute();
 	while (running) {

@@ -1,12 +1,19 @@
-/*
- * Control.h
- *
- *  Created on: Apr 12, 2013
- *      Author: bruno
- */
-
 #ifndef CONTROL_H_
 #define CONTROL_H_
+
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: Control.h
+//  ========
+//  Class definition for control.
 
 #include <QObject>
 #include <QtCore>
@@ -26,6 +33,10 @@
 #include "Referee.h"
 #include "Robot.h"
 
+//////////////////////////////////////////////////////////
+//
+// Control: control class
+// ==========
 class Control: public ThreadModule {
 	Q_OBJECT
 	public:
@@ -97,6 +108,10 @@ class Control: public ThreadModule {
 		Control & operator=(const Control&);
 
 		Robot testRobot;
+		Robot testRobot2;
+		Robot testRobot3;
+		//Robot testRobot4;
+		//Robot testRobot5;
 };
 
 #endif /* CONTROL_H_ */

@@ -1,16 +1,27 @@
-/*
- * Strategy.h
- *
- *  Created on: Apr 12, 2013
- *      Author: bruno
- */
-
 #ifndef STRATEGY_H_
 #define STRATEGY_H_
+
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: Strategy.h
+//  ========
+//  Class definition for strategy.
 
 #include <Vision.h>
 #include <Robot.h>
 
+//////////////////////////////////////////////////////////
+//
+// Strategy: strategy class
+// ==========
 class Strategy: public QObject {
 		Q_OBJECT
 	public:

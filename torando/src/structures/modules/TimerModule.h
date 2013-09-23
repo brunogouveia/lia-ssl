@@ -1,12 +1,19 @@
-/*
- * TimerModule.h
- *
- *  Created on: Apr 25, 2013
- *      Author: bruno
- */
-
 #ifndef TIMERMODULE_H_
 #define TIMERMODULE_H_
+
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: TimerModule.h
+//  ========
+//  Class definition for timer module.
 
 #include <Module.h>
 
@@ -14,6 +21,10 @@
 #include <QtCore>
 #include <QTimer>
 
+//////////////////////////////////////////////////////////
+//
+// TimerModule: abstract timer module class
+// ==========
 class TimerModule: public Module {
 	Q_OBJECT
 	protected:

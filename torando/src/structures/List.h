@@ -1,12 +1,19 @@
-/*
- * List.h
- *
- *  Created on: Apr 17, 2013
- *      Author: bruno
- */
-
 #ifndef LIST_H_
 #define LIST_H_
+
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: List.h
+//  ========
+//  Class definition for list.
 
 #include <stdlib.h>
 
@@ -15,6 +22,10 @@ class ListNode;
 template<typename T>
 class ListIterator;
 
+//////////////////////////////////////////////////////////
+//
+// List: list class template
+// ==========
 template<typename T>
 class List {
 	public:
@@ -34,6 +45,11 @@ class List {
 		List<T> & operator=(const List<T>&);
 };
 
+
+//////////////////////////////////////////////////////////
+//
+// ListNode: list node class template
+// ==========
 template<typename T>
 class ListNode {
 	private:
@@ -46,6 +62,10 @@ class ListNode {
 		ListNode<T> * next;
 };
 
+//////////////////////////////////////////////////////////
+//
+// ListIterator: list iterator class template
+// ==========
 template<typename T>
 class ListIterator {
 	public:
@@ -61,6 +81,10 @@ class ListIterator {
 		~ListIterator();
 };
 
+//////////////////////////////////////////////////////////
+//
+// List implementation
+// ==========
 template<typename T>
 List<T>::List() {
 
@@ -88,7 +112,12 @@ template<typename T>
 ListIterator<T> * List<T>::getIterator() {
 	return NULL;
 }
-/*=============================================================*/
+
+
+//////////////////////////////////////////////////////////
+//
+// ListNode implementation
+// ==========
 template<typename T>
 ListNode<T>::ListNode(const T & value, const ListNode<T> & next) :
 		value(value), next(next) {
@@ -98,7 +127,10 @@ template<typename T>
 ListNode<T>::~ListNode() {
 }
 
-/*================================================================*/
+//////////////////////////////////////////////////////////
+//
+// ListIterator implementation
+// ==========
 template<typename T>
 void ListIterator<T>::moveBegin() {
 

@@ -1,17 +1,28 @@
-/*
- * Path.h
- *
- *  Created on: 27/04/2013
- *      Author: yuriclaure
- */
-
 #ifndef PATH_H_
 #define PATH_H_
+
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: Path.h
+//  ========
+//  Class definition for path.
 
 #include <Target.h>
 #include <TargetFixed.h>
 #include <Vision.h>
 
+//////////////////////////////////////////////////////////
+//
+// Path: path class
+// ==========
 class Path {
 	public:
 		Path(RobotInfo & from) :
@@ -35,6 +46,11 @@ class Path {
 
 		bool changeTarget(Target to) {
 			this->to = to;
+			return true;
+		}
+
+		bool changeAngleApproach(float angle) {
+			this->angleApproach = angle;
 			return true;
 		}
 
@@ -69,6 +85,7 @@ class Path {
 
 		RobotInfo & from;
 		Target to;
+		float angleApproach;
 };
 
 #endif /* PATH_H_ */

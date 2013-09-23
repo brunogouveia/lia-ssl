@@ -1,16 +1,27 @@
-/*
- * Module.h
- *
- *  Created on: Apr 23, 2013
- *      Author: bruno
- */
-
 #ifndef MODULE_H_
 #define MODULE_H_
+
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: Module.h
+//  ========
+//  Class definition for Module.
 
 #include <QObject>
 #include <QtCore>
 
+//////////////////////////////////////////////////////////
+//
+// Module: abstract module class
+// ==========
 class Module: public QObject {
 	Q_OBJECT
 	protected:

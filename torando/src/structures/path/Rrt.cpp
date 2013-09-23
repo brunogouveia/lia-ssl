@@ -1,22 +1,36 @@
-/*
- * Rnn.cpp
- *
- *  Created on: Jul 8, 2013
- *      Author: bruno
- */
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: Referee.cpp
+//  ========
+//  Source file for referee.
 
+#ifndef RRT_H_
 #include "Rrt.h"
+#endif
 
 #include <sys/time.h>
 #include <iostream>
 
+//////////////////////////////////////////////////////////
+//
+// Referee implementation
+// ==========
+Rrt::Rrt(RobotInfo & from, Target to) :
+		Path(from)
 //[]----------------------------------[]
 // |	Constructor                   |
 //[]----------------------------------[]
-Rrt::Rrt(RobotInfo & from, Target & to) :
-		Path(from) {
+{
 	changeTarget(to);
-
+	numNodes = 0;
 	sizeCache = 0;
 	indexCache = 0;
 
@@ -24,17 +38,18 @@ Rrt::Rrt(RobotInfo & from, Target & to) :
 	points.insert(from, root);
 }
 
+Rrt::~Rrt()
 //[]----------------------------------[]
 // |	Destructor                    |
 //[]----------------------------------[]
-Rrt::~Rrt() {
+{
 }
 
-TargetFixed
+TargetFixed Rrt::getNextPoint()
 //[]----------------------------------[]
 // |	getNextPoint                  |
 //[]----------------------------------[]
-Rrt::getNextPoint() {
+{
 	static TargetFixed next(from.x(), from.y());
 
 	timeval stop, start;
@@ -43,40 +58,42 @@ Rrt::getNextPoint() {
 	checkTree();
 
 	//Grow the tree to goal.
-	while (points.nearestDist(to) > 20) {
+	numNodes = 0;
+	while (points.nearestDist(to) > 20 && numNodes < 2000) {
 		grow(to);
+		numNodes++;
 		//print();
 	}
 
-
+	RrtNode * goal = 0;
 	RrtNode * parent = points.getNearestNode(to);
-
-
-	RrtNode * goal = parent->parent;
-
 
 	float distance = from.closestDistance(true);
 
-	while (parent != 0 && parent->target.distanceTo(from) > distance) {
+	while (parent->parent != 0 && parent->target.distanceTo(from) > distance) {
 
 		goal = parent;
 		parent = parent->parent;
 	}
 	if (goal != 0) {
-		root = goal;
+		//root = goal;
 		next = goal->target;
 	} else {
-		root = parent;
+		//root = parent;
 		next = parent->target;
 	}
-	root->parent = 0;
+	//root->parent = 0;
 
 	gettimeofday(&stop, NULL);
-	printf("took %lu\n", stop.tv_usec - start.tv_usec);
+	//printf("took %lu\n", stop.tv_usec - start.tv_usec);
 	return next;
 }
 
-void Rrt::grow(Target goal) {
+void Rrt::grow(Target goal)
+//[]----------------------------------[]
+// |	Grow	                       |
+//[]----------------------------------[]
+		{
 
 	//Cria um ponto aleatório
 	float maxX = 3700.0;
@@ -96,6 +113,18 @@ void Rrt::grow(Target goal) {
 	if (ran < 0.1) {
 		x = goal.x();
 		y = goal.y();
+	} else if (ran < 0.2) {
+		float dX = lookAt.x() - goal.x();
+		float dY = lookAt.y() - goal.y();
+
+		float norm = sqrt(dX * dY + dY * dY);
+
+		dX = (dX / norm) * (ROBOT_RADIUS * 0.7f);
+		dY = (dY / norm) * (ROBOT_RADIUS * 0.7f);
+
+		x = goal.x() - dX;
+		y = goal.y() - dY;
+
 	} else if (ran < 0.7 && sizeCache != 0) {
 		if (sizeCache > 50)
 			sizeCache = 50;
@@ -138,7 +167,7 @@ void Rrt::grow(Target goal) {
 	while (nearestObjectDistance > 80.0f) {
 		TargetFixed delta(nearestPoint.x() + normalizedDeltaX, nearestPoint.y() + normalizedDeltaY);
 
-		isFree = Vision::isFree(from, delta,ROBOT_RADIUS + 50.0,true);
+		isFree = Vision::isFreeWithBall(from, delta, ROBOT_RADIUS + 50.0, angleApproach);
 		if (isFree) {
 			RrtNode * newNode = new RrtNode(delta, nearestNode);
 			nearestNode->addChild(newNode);
@@ -157,7 +186,7 @@ void Rrt::grow(Target goal) {
 		TargetFixed delta(nearestPoint.x() + deltaX, nearestPoint.y() + deltaY);
 
 		//Se o ponto é válido, ou seja, não está perto de nenhum obstáculo, então adiciona o novo ponto na árvore
-		if (Vision::isFree(from, delta,ROBOT_RADIUS + 50.0,true)) {
+		if (Vision::isFreeWithBall(from, delta, ROBOT_RADIUS + 50.0, angleApproach)) {
 			RrtNode * newNode = new RrtNode(delta, nearestNode);
 			nearestNode->addChild(newNode);
 
@@ -165,15 +194,15 @@ void Rrt::grow(Target goal) {
 		}
 	}
 
-	if (points.nearestDist(to) <= 100) {
+	if (points.nearestDist(to) <= 80) {
 		RrtNode * parent = points.getNearestNode(to);
 
 		//Adiciona o to na árvore
-		RrtNode * toNode = new RrtNode(to,parent);
+		RrtNode * toNode = new RrtNode(to, parent);
 		parent->addChild(toNode);
-		points.insert(to,toNode);
+		points.insert(to, toNode);
 
-		RrtNode * goal = parent->parent;
+		RrtNode * goal = parent;
 
 		float distance = from.closestDistance(true);
 		while (parent != 0 && parent->target.distanceTo(from) > distance) {
@@ -188,7 +217,11 @@ void Rrt::grow(Target goal) {
 
 }
 
-void Rrt::checkTree() {
+void Rrt::checkTree()
+//[]----------------------------------[]
+// |	Check Tree                     |
+//[]----------------------------------[]
+{
 	/*RrtNode * goal = points.getNearestNode(to);
 	 if (goal != 0) {
 	 RrtNode * parent = goal->parent;
@@ -215,22 +248,26 @@ void Rrt::checkTree() {
 	 }*/
 
 	/*printf("Entrou check\n");
-	printf("%x\n", root);
-	RrtNode * nearest = points.getNearestNode(from);
-	if (nearest == 0)
-		return;
-	points.clear();
-	deleteTreeLeast(root, nearest);
-	printf("Terminou delete\n");
-	root = nearest;
-	root->parent = 0;
-	addTreeOnKdTree(root);
+	 printf("%x\n", root);
+	 RrtNode * nearest = points.getNearestNode(from);
+	 if (nearest == 0)
+	 return;
+	 points.clear();
+	 deleteTreeLeast(root, nearest);
+	 printf("Terminou delete\n");
+	 root = nearest;
+	 root->parent = 0;
+	 addTreeOnKdTree(root);
 
-	printf("Saiu check\n");*/
+	 printf("Saiu check\n");*/
 	clear();
 }
 
-void Rrt::deleteTreeLeast(RrtNode * root, RrtNode * least) {
+void Rrt::deleteTreeLeast(RrtNode * root, RrtNode * least)
+//[]----------------------------------[]
+// |	Delete Tree Least              |
+//[]----------------------------------[]
+		{
 	if (root == 0 || root == least)
 		return;
 
@@ -248,7 +285,11 @@ void Rrt::deleteTreeLeast(RrtNode * root, RrtNode * least) {
 	delete root;
 }
 
-void Rrt::addTreeOnKdTree(RrtNode * root) {
+void Rrt::addTreeOnKdTree(RrtNode * root)
+//[]----------------------------------[]
+// |	Add Tree On KD-Tree            |
+//[]----------------------------------[]
+		{
 	if (root == 0)
 		return;
 
@@ -259,7 +300,11 @@ void Rrt::addTreeOnKdTree(RrtNode * root) {
 	}
 }
 
-void Rrt::clear() {
+void Rrt::clear()
+//[]----------------------------------[]
+// |	Clear		                   |
+//[]----------------------------------[]
+{
 	deleteTree(root);
 	points.clear();
 
@@ -267,7 +312,11 @@ void Rrt::clear() {
 	points.insert(from, root);
 }
 
-void Rrt::deleteTree(RrtNode *& root) {
+void Rrt::deleteTree(RrtNode *& root)
+//[]----------------------------------[]
+// |	Delete Tree                    |
+//[]----------------------------------[]
+		{
 	if (root == 0)
 		return;
 
@@ -280,11 +329,11 @@ void Rrt::deleteTree(RrtNode *& root) {
 	root = 0;
 }
 
-void
+void Rrt::print()
 //[]----------------------------------[]
 // |	Print                         |
 //[]----------------------------------[]
-Rrt::print() {
+{
 	FILE * f = fopen("rrt.txt", "w+");
 	print(f, root);
 
@@ -312,11 +361,11 @@ Rrt::print() {
 	fclose(f);
 }
 
-void
+void Rrt::print(FILE * f, RrtNode * root)
 //[]----------------------------------[]
 // |	Print                         |
 //[]----------------------------------[]
-Rrt::print(FILE * f, RrtNode * root) {
+		{
 
 	if (root == 0)
 		return;

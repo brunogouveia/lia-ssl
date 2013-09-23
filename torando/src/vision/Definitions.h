@@ -1,12 +1,18 @@
-/*
- * Definitions.h
- *
- *  Created on: Jul 9, 2013
- *      Author: yuri
- */
-
 #ifndef DEFINITIONS_H_
 #define DEFINITIONS_H_
+
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: Definitions.h
+//  ========
 
 #ifndef MIN_X
 #define MIN_X -3700.0f

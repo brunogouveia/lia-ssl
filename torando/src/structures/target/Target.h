@@ -1,15 +1,26 @@
-/*
- * Target.h
- *
- *  Created on: 27/04/2013
- *      Author: yuriclaure
- */
-
 #ifndef TARGET_H_
 #define TARGET_H_
 
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: Target.h
+//  ========
+//  Class definition for target.
+
 #include<math.h>
 
+//////////////////////////////////////////////////////////
+//
+// Target: abstract target class
+// ==========
 class Target {
 	public:
 		Target();
@@ -21,6 +32,7 @@ class Target {
 		inline float y() {
 			return _y;
 		}
+
 
 		double distanceTo(Target point) {
 			double distX = _x - point.x();

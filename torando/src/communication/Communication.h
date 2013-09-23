@@ -8,6 +8,20 @@
 #ifndef COMMUNICATION_H_
 #define COMMUNICATION_H_
 
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: Communication.h
+//  ========
+//  Class definition for communication.
+
 #include <QObject>
 #include <QtCore>
 #include <QTimer>
@@ -19,6 +33,10 @@
 #include "grSim_Commands.pb.h"
 #include "grSim_Replacement.pb.h"
 
+//////////////////////////////////////////////////////////
+//
+// Communication: communication class
+// ==========
 class Communication: TimerModule {
 	Q_OBJECT
 	public:
@@ -61,13 +79,7 @@ class Communication: TimerModule {
 		 *   Método que faz o robo chutar "para frente".
 		 *   Index é o número do robo, e speed é a velocidade em m/s do chute.
 		 */
-		static void kickX(int index, float speed);
-
-		/**
-		 *   Método que faz o robo chutar "por cobertura".
-		 *   index é o número do robo, e speed é a velocidade em m/s do chute.
-		 */
-		static void kickZ(int index, float speed);
+		static void kick(int index, float XSpeed = 12.0f, float ZSpeed = 0.0f);
 
 		/**
 		 *   Método que ativa ou desativa o drible do robo index.

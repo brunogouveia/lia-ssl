@@ -26,6 +26,7 @@
 #include <FieldInfo.h>
 #include <Definitions.h>
 #include <RobotList.h>
+#include <Vector.h>
 
 #include <Matrix.h>
 class Update;
@@ -54,6 +55,14 @@ class Vision: public TimerModule {
 		static FieldInfo field;
 		static TargetFixed opponentGoal;
 		static TargetFixed goal;
+		static TargetFixed rightCornerGoal;
+		static TargetFixed leftCornerGoal;
+
+		static Vector2D rightCornerVector;
+		static Vector2D leftCornerVector;
+
+		static double rightCornerAngle;
+		static double leftCornerAngle;
 
 		/**
 		 *   Este método inicializa o módulo responsável por atualizar os atributos
@@ -86,6 +95,8 @@ class Vision: public TimerModule {
 		 */
 
 		static bool isFree(Target self, Target position, double tolerance = ROBOT_RADIUS + 50.0, bool avoidBall = false);
+
+		static bool isFreeWithBall(Target self, Target position, double tolerance = ROBOT_RADIUS + 50.0, float angleApproach = 0.0f);
 
 		/**
 		 *   Este médoto retorna a distancia do objeto mais proximo do ponto passado.

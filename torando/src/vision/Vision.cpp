@@ -1,9 +1,16 @@
-/*
- * Vision.cpp
- *
- *  Created on: Apr 11, 2013
- *      Author: bruno
- */
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: Vision.cpp
+//  ========
+//  Source file for vision.
 
 #include "Vision.h"
 
@@ -17,7 +24,15 @@ RobotList Vision::opponents;
 FieldInfo Vision::field;
 BallInfo Vision::ball;
 TargetFixed Vision::opponentGoal(3090.0, 0.0);
-TargetFixed Vision::goal(-3090.0, 0.0);
+TargetFixed Vision::goal(-3171.0, 0.0);
+TargetFixed Vision::rightCornerGoal(-3000.0, 250.0);
+TargetFixed Vision::leftCornerGoal(-3000.0, -250.0);
+
+Vector2D Vision::rightCornerVector(Vision::rightCornerGoal.x() - Vision::goal.x(),Vision::rightCornerGoal.y() - Vision::goal.y());
+Vector2D Vision::leftCornerVector(Vision::leftCornerGoal.x() - Vision::goal.x(),Vision::leftCornerGoal.y() - Vision::goal.y());
+
+double Vision::rightCornerAngle = rightCornerVector.findAngle();
+double Vision::leftCornerAngle = leftCornerVector.findAngle();
 
 Vision::Vision() :
 		StateX("Sx", 2, 1), Px("Px", 2, 2), Ax("Ax", 2, 2), Bx("Bx", 2, 1), Cx("Cx", 1, 2), Ex("", 2, 2), Ezx("", 1, 1), StateY("Sy", 2, 1), Py("Py", 2, 2), Ay("Ay", 2, 2), By("By", 2, 1), Cy("Cy", 1, 2), Ey("", 2, 2), Ezy("", 1, 1) {
@@ -80,7 +95,6 @@ void Vision::onPreExecute() {
 
 	ball._velX = ball._velY = 0;
 	ball._accX = ball._accY = 0;
-
 
 	realX = fopen("realX.txt", "w+");
 	kalmanX = fopen("kalmanX.txt", "w+");
@@ -205,8 +219,6 @@ void Vision::doInBackground() {
 
 	}
 
-
-
 }
 
 void Vision::onPosExecute() {
@@ -231,6 +243,48 @@ bool Vision::isFree(Target self, Target position, double tolerance, bool avoidBa
 
 	if (position.distanceTo(Vision::ball) < tolerance && avoidBall)
 		free = false;
+
+	return free;
+
+}
+
+bool Vision::isFreeWithBall(Target self, Target position, double tolerance, float angleApproach) {
+
+	bool free = true;
+
+	int numRobots = Vision::robots.size();
+	for (int i = 0; i < numRobots; i++)
+		if (position.distanceTo(Vision::robots[i]) < tolerance && self.distanceTo(Vision::robots[i]) > ROBOT_RADIUS)
+			free = false;
+
+	numRobots = Vision::opponents.size();
+	for (int i = 0; i < numRobots; i++)
+		if (position.distanceTo(Vision::opponents[i]) < tolerance && self.distanceTo(Vision::opponents[i]) > ROBOT_RADIUS)
+			free = false;
+
+	if (position.distanceTo(Vision::ball) < tolerance) {
+		float positionAngle = atan2(-position.y() + Vision::ball.y(), -position.x() + Vision::ball.x());
+
+		float angleDiff = (angleApproach > positionAngle) ? angleApproach - positionAngle : positionAngle - angleApproach;
+
+		if (angleApproach > positionAngle) {
+			angleDiff = angleApproach - positionAngle;
+
+			if (angleDiff > M_PI) {
+				angleDiff = fabs(float(M_PI - angleApproach)) + fabs(float(positionAngle - M_PI));
+			}
+		} else {
+			angleDiff = positionAngle - angleApproach;
+
+			if (angleDiff > M_PI) {
+				angleDiff = fabs(float(M_PI - positionAngle)) + fabs(float(angleApproach - M_PI));
+			}
+		}
+
+		if (angleDiff > 0.1)
+			free = false;
+		//printf("Angle approach: \t\t%f, PositionAngle: \t\t%f, AngleDiff: \t\t%f\n", angleApproach, positionAngle, angleDiff);
+	}
 
 	return free;
 

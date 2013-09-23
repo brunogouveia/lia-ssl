@@ -1,58 +1,98 @@
-/*
- * Communication.cpp
- *
- *  Created on: Apr 18, 2013
- *      Author: bruno
- */
-
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: Communication.cpp
+//  ========
+//  Source file for communication.
+#ifndef COMMUNICATION_H_
 #include "Communication.h"
+#endif
 
 #include <stdio.h>
 
-Communication::Communication() {
+//////////////////////////////////////////////////////////
+//
+// Communication implementation
+// ==========
+Communication::Communication()
+//[]----------------------------------------------------[]
+//|  Constructor                                         |
+//[]----------------------------------------------------[]
+{
 	printf("Communication::Communication\n");
 }
 
-Communication::~Communication() {
+Communication::~Communication()
+//[]----------------------------------------------------[]
+//|  Destructor                                          |
+//[]----------------------------------------------------[]
+{
 	printf("Communication::~Communication\n");
 }
 
-void Communication::startModule() {
+void Communication::startModule()
+//[]----------------------------------------------------[]
+//|  Start Module                                        |
+//[]----------------------------------------------------[]
+{
 	printf("Communication::startModule - started\n");
 	getInstance().start();
 	printf("Communication::startModule - finished\n");
 }
-void Communication::stopModule() {
+
+
+void Communication::stopModule()
+//[]----------------------------------------------------[]
+//|  Stop Module                                         |
+//[]----------------------------------------------------[]
+{
 	printf("Communication::stopModule - started\n");
 	getInstance().stop();
 	printf("Communication::stopModule - finished\n");
 }
 
-void Communication::changeInterval(int milSeconds){
+void Communication::changeInterval(int milSeconds)
+//[]----------------------------------------------------[]
+//|  Change Interval                                     |
+//[]----------------------------------------------------[]
+{
 	printf("Communication::changeInterval - started\n");
 	getInstance().setInterval(milSeconds);
 	printf("Communication::changeInterval - finished\n");
 }
 
-void Communication::kickX(int index, float speed) {
-	printf("Communication::kickX - started\n");
-	getInstance().packets[index].kickXSpeed = speed;
-	printf("Communication::kickX - finished\n");
+void Communication::kick(int index, float XSpeed, float ZSpeed)
+//[]----------------------------------------------------[]
+//|  Kick                                                |
+//[]----------------------------------------------------[]
+{
+	getInstance().packets[index].kickXSpeed = XSpeed;
+	getInstance().packets[index].kickZSpeed = ZSpeed;
+
 }
 
-void Communication::kickZ(int index, float speed) {
-	printf("Communication::kickZ - started\n");
-	getInstance().packets[index].kickZSpeed = speed;
-	printf("Communication::kickZ - finished\n");
-}
-
-void Communication::drible(int index, bool drible) {
+void Communication::drible(int index, bool drible)
+//[]----------------------------------------------------[]
+//|  Drible                                              |
+//[]----------------------------------------------------[]
+{
 	printf("Communication::drible - started\n");
 	getInstance().packets[index].spinner = drible;
 	printf("Communication::drible - finished\n");
 }
 
-void Communication::setWheelsVelocity(int index, float frontLeft, float backLeft, float backRight, float frontRight) {
+void Communication::setWheelsVelocity(int index, float frontLeft, float backLeft, float backRight, float frontRight)
+//[]----------------------------------------------------[]
+//|  Set Wheels Velocity                                 |
+//[]----------------------------------------------------[]
+{
 	//printf("Communication::setWheelsVelocity - started\n");
 	getInstance().packets[index].wheels[0] = frontLeft;
 	getInstance().packets[index].wheels[1] = backLeft;
@@ -61,15 +101,11 @@ void Communication::setWheelsVelocity(int index, float frontLeft, float backLeft
 	//printf("Communication::setWheelsVelocity - finished\n");
 }
 
-/*void Communication::start(int index) {
-
- }
-
- void Communication::stop(int index) {
-
- }*/
-
-void Communication::onPreExecute() {
+void Communication::onPreExecute()
+//[]----------------------------------------------------[]
+//|  On Pre Execute                                      |
+//[]----------------------------------------------------[]
+{
 	printf("Communication::onPreExecute - started\n");
 	udpsocket.close();
 	bool flag = _addr.setHost("127.0.0.1", 20011);
@@ -78,7 +114,11 @@ void Communication::onPreExecute() {
 	printf("Communication::onPreExecute - finished\n");
 }
 
-void Communication::doInBackground() {
+void Communication::doInBackground()
+//[]----------------------------------------------------[]
+//|  Do In Back Ground                                   |
+//[]----------------------------------------------------[]
+{
 	//printf("Communication::doInBackGround - started\n");
 
 	grSim_Packet packet;
@@ -100,6 +140,8 @@ void Communication::doInBackground() {
 		command->set_velangular(0.0);
 		command->set_kickspeedx(packets[i].kickXSpeed);
 		command->set_kickspeedz(packets[i].kickZSpeed);
+		packets[i].kickXSpeed = 0.0f;
+		packets[i].kickZSpeed = 0.0f;
 		command->set_spinner(packets[i].spinner);
 	}
 	std::string s;
@@ -108,7 +150,11 @@ void Communication::doInBackground() {
 	//printf("Communication::doInBackGround - finished\n");
 }
 
-void Communication::onPosExecute() {
+void Communication::onPosExecute()
+//[]----------------------------------------------------[]
+//|  On Pos Execute                                      |
+//[]----------------------------------------------------[]
+{
 	printf("Communication::onPosExecute - started\n");
 	udpsocket.close();
 	printf("Communication::onPosExecute - finished\n");

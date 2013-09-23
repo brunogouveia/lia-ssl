@@ -1,25 +1,53 @@
-/*
- * RobotInfo.cpp
- *
- *  Created on: Apr 11, 2013
- *      Author: bruno
- */
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: Referee.cpp
+//  ========
+//  Source file for referee.
 
+#ifndef ROBOTINFO_H_
 #include "RobotInfo.h"
-
+#endif
+#ifndef DEFINITIONS_H_
 #include "Definitions.h"
+#endif
+#ifndef VISION_H_
 #include "Vision.h"
+#endif
 
-RobotInfo::RobotInfo() {
+//////////////////////////////////////////////////////////
+//
+// RobotInfo implementation
+// ==========
+RobotInfo::RobotInfo()
+//[]----------------------------------------------------[]
+//|  Constructor                                         |
+//[]----------------------------------------------------[]
+{
 	// TODO Auto-generated constructor stub
 
 }
 
-RobotInfo::~RobotInfo() {
+RobotInfo::~RobotInfo()
+//[]----------------------------------------------------[]
+//|  Destructor                                          |
+//[]----------------------------------------------------[]
+{
 	// TODO Auto-generated destructor stub
 }
 
-float RobotInfo::closestDistance( bool considerBall) {
+float RobotInfo::closestDistance( bool considerBall)
+//[]----------------------------------------------------[]
+//|  Closest Distance                                    |
+//[]----------------------------------------------------[]
+{
 	float distance = 10000.0f;
 
 	if (considerBall) {

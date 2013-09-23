@@ -1,13 +1,24 @@
-/*
- * Array.h
- *
- *  Created on: 02/03/2013
- *      Author: yuriclaure
- */
-
 #ifndef ARRAY_H_
 #define ARRAY_H_
 
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: Array.h
+//  ========
+//  Class definition for Array.
+
+//////////////////////////////////////////////////////////
+//
+// ArrayIterator: array iterator class template
+// ==========
 template<typename E>
 class ArrayIterator {
 	private:
@@ -30,6 +41,10 @@ class ArrayIterator {
 		}
 };
 
+//////////////////////////////////////////////////////////
+//
+// Array: array class template
+// ==========
 template<typename E, int initialSize = 10>
 class Array {
 	private:
@@ -80,6 +95,11 @@ class Array {
 		}
 };
 
+
+//////////////////////////////////////////////////////////
+//
+// Array implementation
+// ==========
 template<typename E, int initialSize>
 void Array<E, initialSize>::add(const E& value) {
 	if (length == alocatedPositions)

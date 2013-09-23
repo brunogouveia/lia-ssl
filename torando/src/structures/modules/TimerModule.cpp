@@ -1,25 +1,50 @@
-/*
- * TimerModule.cpp
- *
- *  Created on: Apr 25, 2013
- *      Author: bruno
- */
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: TimerModule.cpp
+//  ========
+//  Source file for abstract timer module.
 
+#ifndef TIMERMODULE_H_
 #include "TimerModule.h"
+#endif
 
 #include <stdio.h>
 
+//////////////////////////////////////////////////////////
+//
+// TimerModule implementation
+// ==========
 TimerModule::TimerModule() :
-		firstRun(true), running(false) {
+		firstRun(true), running(false)
+//[]----------------------------------------------------[]
+//|  Constructor                                         |
+//[]----------------------------------------------------[]
+{
 	printf("TimerModule::TimerModule\n");
 }
 
-TimerModule::~TimerModule() {
+TimerModule::~TimerModule()
+//[]----------------------------------------------------[]
+//|  Destructor                                          |
+//[]----------------------------------------------------[]
+{
 	printf("TimerModule::~TimerModule\n");
 	disconnect(getTimer(), SIGNAL(timeout()), this, SLOT(exec()));
 }
 
-void TimerModule::start() {
+void TimerModule::start()
+//[]----------------------------------------------------[]
+//|  Start                                               |
+//[]----------------------------------------------------[]
+{
 	printf("TimerModule::start\n");
 	if (firstRun) {
 		connect(getTimer(), SIGNAL(timeout()), this, SLOT(exec()));
@@ -32,33 +57,61 @@ void TimerModule::start() {
 	getTimer()->start();
 }
 
-void TimerModule::stop() {
+void TimerModule::stop()
+//[]----------------------------------------------------[]
+//|  Stop                                                |
+//[]----------------------------------------------------[]
+{
 	printf("TimerModule::stop\n");
 	getTimer()->stop();
 	onPosExecute();
 }
 
-void TimerModule::setInterval(int milSeconds) {
+void TimerModule::setInterval(int milSeconds)
+//[]----------------------------------------------------[]
+//|  Set Interval                                        |
+//[]----------------------------------------------------[]
+{
 	getTimer()->setInterval(milSeconds);
 }
 
-void TimerModule::exec() {
+void TimerModule::exec()
+//[]----------------------------------------------------[]
+//|  Exec    	                                         |
+//[]----------------------------------------------------[]
+{
 	//printf("TimerModule::exec\n");
 	doInBackground();
 	QThread::yieldCurrentThread();
 }
 
-void TimerModule::onConnectToTimer(QTimer * timer) {
+void TimerModule::onConnectToTimer(QTimer * timer)
+//[]----------------------------------------------------[]
+//|  On Connect to Timer                                 |
+//[]----------------------------------------------------[]
+{
 	printf("TimerModule::onConnectToTimer\n");
 }
-void TimerModule::onDisconnectToTimer(QTimer * timer) {
+void TimerModule::onDisconnectToTimer(QTimer * timer)
+//[]----------------------------------------------------[]
+//|  On Disconnect to Timer	                             |
+//[]----------------------------------------------------[]
+{
 	printf("TimerModule::onDisconnectToTimer\n");
 }
 
-void TimerModule::onPreExecute() {
+void TimerModule::onPreExecute()
+//[]----------------------------------------------------[]
+//|  On Pre Execute                                      |
+//[]----------------------------------------------------[]
+{
 	printf("TimerModule::onPreExecute\n");
 }
 
-void TimerModule::onPosExecute() {
+void TimerModule::onPosExecute()
+//[]----------------------------------------------------[]
+//|  On Pos Execute                                      |
+//[]----------------------------------------------------[]
+{
 	printf("TimerModule::onPosExecute\n");
 }

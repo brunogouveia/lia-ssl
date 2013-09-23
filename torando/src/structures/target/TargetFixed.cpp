@@ -1,18 +1,38 @@
-/*
- * TargetFixed.cpp
- *
- *  Created on: 27/04/2013
- *      Author: yuriclaure
- */
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: TargetFixed.cpp
+//  ========
+//  Source file for target fixed.
 
+#ifndef TARGETFIXED_H_
 #include "TargetFixed.h"
+#endif
 
-TargetFixed::TargetFixed(float x, float y) {
+//////////////////////////////////////////////////////////
+//
+// TargetFixed implementation
+// ==========
+TargetFixed::TargetFixed(float x, float y)
+//[]----------------------------------------------------[]
+//|  Constructor                                         |
+//[]----------------------------------------------------[]
+{
 	_x = x;
 	_y = y;
 }
 
-TargetFixed::~TargetFixed() {
-	// TODO Auto-generated destructor stub
+TargetFixed::~TargetFixed()
+//[]----------------------------------------------------[]
+//|  Destructor                                          |
+//[]----------------------------------------------------[]
+{
 }
 

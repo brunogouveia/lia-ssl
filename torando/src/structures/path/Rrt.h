@@ -1,12 +1,19 @@
-/*
- * Rrt.h
- *
- *  Created on: Jul 8, 2013
- *      Author: bruno
- */
-
 #ifndef RRT_H_
 #define RRT_H_
+
+//[]------------------------------------------------------------------------[]
+//|                                                                          |
+//|                        Small Size League software                        |
+//|                             Version 1.0                                  |
+//|                     Laboratório de Inteligencia Artificial				 |
+//| 				 Universidade Federal de Mato Grosso do Sul              |
+//|					 Author: Bruno H. Gouveia, Yuri Claure					 |
+//|																			 |
+//[]------------------------------------------------------------------------[]
+//
+//  OVERVIEW: Rrt.h
+//  ========
+//  Class definition for rrt.
 
 #include <KdTree.h>
 #include <Array.h>
@@ -15,13 +22,24 @@
 
 #include <iostream>
 
+//////////////////////////////////////////////////////////
+//
+// Rrt: rrt class
+// ==========
 class Rrt: public Path {
 	public:
-		Rrt(RobotInfo & from, Target & to);
+		Rrt(RobotInfo & from, Target  to);
 		virtual ~Rrt();
 
 		TargetFixed getNextPoint();
 
+		int size() const {
+			return numNodes;
+		}
+
+		void setLookAt(Target target) {
+			this->lookAt = target;
+		}
 	protected:
 		void grow(Target goal);
 
@@ -36,8 +54,11 @@ class Rrt: public Path {
 
 		void print(FILE * f, RrtNode * root);
 
+
 	private:
 
+		int numNodes;
+		Target lookAt;
 		TargetFixed cache[200];
 		int sizeCache;
 		int indexCache;
